@@ -14,6 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $roleNames = ['Regular User', 'Owner', 'Premium User'];
+        foreach($roleNames as $role) {
+            \App\Models\User\Role::firstOrCreate(['name' => $role]);
+        }
     }
 }

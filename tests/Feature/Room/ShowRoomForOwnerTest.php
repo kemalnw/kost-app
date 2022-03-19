@@ -57,4 +57,18 @@ class ShowRoomForOwnerTest extends TestCase
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
+
+    /** @test */
+    public function missing_room_should_return_proper_message()
+    {
+        $this->loginAs(Role::OWNER);
+        $response = $this->get(
+            route('owner.rooms.show', ['room' => rand(1, 100)]));
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+
+        $response->assertJsonStructure([
+            'status', 'message'
+        ]);
+    }
 }

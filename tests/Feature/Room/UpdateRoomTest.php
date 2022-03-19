@@ -219,4 +219,26 @@ class UpdateRoomTest extends TestCase
             $room->makeHidden(['updated_at', 'created_at'])->toArray()
         );
     }
+
+    /** @test */
+    public function missing_room_should_return_proper_message()
+    {
+        $this->loginAs(Role::OWNER);
+        $updatedRoom = [
+            'name' => 'Kost Permata',
+            'location' => 'Kota Surakarta',
+            'price' => 500000,
+            'number_rooms' => 10,
+        ];
+
+        $response = $this->putJson(
+            route('owner.rooms.update', ['room' => rand(1, 100)]),
+            $updatedRoom);
+
+        $response->assertStatus(Response::HTTP_NOT_FOUND);
+
+        $response->assertJsonStructure([
+            'status', 'message'
+        ]);
+    }
 }

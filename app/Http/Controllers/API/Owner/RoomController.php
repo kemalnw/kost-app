@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Room\DeleteRequest;
 use App\Http\Requests\Room\ShowRequest;
 use App\Http\Requests\Room\StoreRequest;
 use App\Http\Requests\Room\UpdateRequest;
@@ -84,11 +85,16 @@ class RoomController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  DeleteRequest $request
+     * @param  Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(DeleteRequest $request, Room $room)
     {
-        //
+        if ($this->service->removeById($room->getKey())) {
+            return $this->generateResponse('Successfully deleted the Room.');
+        }
+
+        return $this->generateErrorResponse('Something went wrong.');
     }
 }

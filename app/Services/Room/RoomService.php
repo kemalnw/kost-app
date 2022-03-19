@@ -76,4 +76,15 @@ class RoomService
 
         return $room;
     }
+
+    /**
+     * Remove the specified room based on the given ID
+     *
+     * @param integer $id
+     * @return bool
+     */
+    public function removeById(int $id)
+    {
+        return $this->repository->deleteById($id);
+    }
 }

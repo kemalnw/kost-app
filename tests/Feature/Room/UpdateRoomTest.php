@@ -8,6 +8,7 @@ use App\Models\User\Role;
 use App\Models\User\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class UpdateRoomTest extends TestCase
 {
@@ -68,7 +69,7 @@ class UpdateRoomTest extends TestCase
             route('owner.rooms.update', ['room' => $room->getKey()]),
             $updatedRoom);
 
-        $response->assertStatus(403);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
 
         $this->assertDatabaseHas(
             'rooms',
@@ -79,9 +80,8 @@ class UpdateRoomTest extends TestCase
     /** @test */
     public function only_owner_can_update_room()
     {
-        $this->loginAs(Role::REGULAR_USER);
-
-        $room = Room::factory()->for(User::factory(), 'owner')->create();
+        $user = $this->loginAs(Role::REGULAR_USER);
+        $room = Room::factory()->for($user, 'owner')->create();
 
         $updatedRoom = [
             'name' => 'Kost Permata',
@@ -94,7 +94,7 @@ class UpdateRoomTest extends TestCase
             route('owner.rooms.update', ['room' => $room->getKey()]),
             $updatedRoom);
 
-        $response->assertStatus(403);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
 
         $this->assertDatabaseHas(
             'rooms',

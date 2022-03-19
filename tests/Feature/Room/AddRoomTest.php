@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User\Role;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class AddRoomTest extends TestCase
 {
@@ -56,7 +57,7 @@ class AddRoomTest extends TestCase
 
         $response = $this->postJson(route('owner.rooms.store'), $room);
 
-        $response->assertStatus(403);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 
     /** @test */

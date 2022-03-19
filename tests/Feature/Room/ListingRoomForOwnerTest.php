@@ -2,10 +2,11 @@
 
 namespace Tests\Feature\Room;
 
+use Tests\TestCase;
 use App\Models\Room\Room;
 use App\Models\User\Role;
 use App\Models\User\User;
-use Tests\TestCase;
+use Illuminate\Http\Response;
 
 class ListingRoomForOwnerTest extends TestCase
 {
@@ -61,6 +62,6 @@ class ListingRoomForOwnerTest extends TestCase
         $this->loginAs(Role::PREMIUM_USER);
 
         $response = $this->get(route('owner.rooms.index'));
-        $response->assertStatus(403);
+        $response->assertStatus(Response::HTTP_FORBIDDEN);
     }
 }

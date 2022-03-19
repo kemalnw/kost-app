@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\Owner;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Room\ShowRequest;
 use App\Http\Requests\Room\StoreRequest;
 use App\Http\Requests\Room\UpdateRequest;
 use App\Http\Resources\RoomResource;
@@ -53,19 +54,22 @@ class RoomController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  ShowRequest  $request
+     * @param  Room $room
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(ShowRequest $request, Room $room)
     {
-        //
+        RoomResource::withoutWrapping();
+
+        return RoomResource::make($room);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  UpdateRequest  $request
-     * @param  Room $id
+     * @param  Room $room
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateRequest $request, Room $room)

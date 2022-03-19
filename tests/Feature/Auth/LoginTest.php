@@ -25,6 +25,11 @@ class LoginTest extends TestCase
         $response->assertJsonStructure([
             'status', 'message', 'data' => ['token'],
         ]);
+
+        $user = $this->withToken($response->decodeResponseJson()['data']['token'])
+            ->get(route('account.current-user'));
+
+        $user->assertOk();
     }
 
     /** @test */
@@ -68,6 +73,19 @@ class LoginTest extends TestCase
                 ->has('errors', 1)
                 ->whereAllType([
                     'errors.email' => 'array',
+                ]);
+        });
+
+        $this->postJson(route('auth.login'), [
+            'email' => 'hi@kemalnw.id',
+            'password' => 'pass',
+        ])
+        ->assertStatus(422)
+        ->assertJson(function (AssertableJson $json) {
+            $json->has('message')
+                ->has('errors', 1)
+                ->whereAllType([
+                    'errors.password' => 'array',
                 ]);
         });
 

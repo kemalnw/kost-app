@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
 use App\Services\Auth\Traits\AuthenticatesUsers;
+use Illuminate\Support\Facades\DB;
 
 class AuthService
 {
@@ -30,13 +31,21 @@ class AuthService
      */
     public function register(Request $request)
     {
-        $user = $this->repository->create([
-            'role_id' => $request->role,
-            'password' => bcrypt($request->password),
-            ...$request->all()
-        ]);
+        DB::beginTransaction();
+        try {
+            $user = $this->repository->create([
+                'role_id' => $request->role,
+                'password' => bcrypt($request->password),
+                ...$request->all()
+            ]);
 
-        UserRegistered::dispatch($user);
+            UserRegistered::dispatch($user);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
 
         return $user;
     }

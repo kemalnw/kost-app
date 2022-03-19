@@ -29,6 +29,7 @@ class RegistrationTest extends TestCase
             'attributes' => [
                 'name' => $user['name'],
                 'email' => $user['email'],
+                'balance' => 20,
             ],
         ]);
 
@@ -95,6 +96,7 @@ class RegistrationTest extends TestCase
             'attributes' => [
                 'name' => $user['name'],
                 'email' => $user['email'],
+                'balance' => 40,
             ],
         ]);
 
@@ -107,5 +109,79 @@ class RegistrationTest extends TestCase
             'password_confirmation',
             'role',
         ]));
+    }
+
+    /** @test */
+    public function empty_input_data_should_return_errors()
+    {
+        $user = [
+            'name' => 'Kemal',
+            'email' => 'hi@kemalnw.id',
+            'password' => '12345678',
+            'password_confirmation' => '12345678',
+            'role' => rand(1,3),
+        ];
+
+        $response = $this->postJson(
+                route('auth.register'),
+                Arr::except($user, ['email', 'password', 'role']));
+
+        $response->assertInvalid(['email', 'password', 'role']);
+
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::except($user, ['name', 'password', 'role']));
+
+        $response->assertInvalid(['name', 'password', 'role']);
+
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::except($user, ['name', 'email', 'role']));
+
+        $response->assertInvalid(['name', 'email', 'role']);
+
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::except($user, ['name', 'email', 'password']));
+
+        $response->assertInvalid(['name', 'email', 'password']);
+    }
+
+    /** @test */
+    public function invalid_input_data_should_return_errors()
+    {
+        $user = [
+            'name' => 'Kemal',
+            'email' => 'hi@kemalnw.id',
+            'password' => '12345678',
+            'password_confirmation' => '12345678',
+            'role' => rand(1,3),
+        ];
+
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::set($user, 'email', 'kemalnw.id'));
+
+        $response->assertInvalid('email');
+
+        Arr::set($user, 'email', 'hi@kemalnw.id');
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::set($user, 'password', '12345'));
+
+        $response->assertInvalid(['password']);
+
+        Arr::set($user, 'password', '1234578');
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::except($user, 'password_confirmation'));
+
+        $response->assertInvalid(['password']);
+
+        $response = $this->postJson(
+            route('auth.register'),
+            Arr::set($user, 'role', '-1'));
+
+        $response->assertInvalid(['role']);
     }
 }

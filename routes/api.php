@@ -17,5 +17,5 @@ Route::post('register', 'AuthController@register')->name('auth.register');
 Route::post('login', 'AuthController@login')->name('auth.login');
 
 Route::middleware('auth:sanctum')->group(function() {
-
+    Route::get('account/current-user', 'AccountController@currentUser')->name('account.current-user');
 });

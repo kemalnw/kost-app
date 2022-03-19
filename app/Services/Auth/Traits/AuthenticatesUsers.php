@@ -34,7 +34,7 @@ trait AuthenticatesUsers
     {
         $request->validate([
             $this->username() => 'required|string',
-            'password' => 'required|string',
+            'password' => 'required|string|min:8',
         ]);
     }
 

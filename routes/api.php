@@ -17,5 +17,14 @@ Route::post('register', 'AuthController@register')->name('auth.register');
 Route::post('login', 'AuthController@login')->name('auth.login');
 
 Route::middleware('auth:sanctum')->group(function() {
+    # Account
     Route::get('account/current-user', 'AccountController@currentUser')->name('account.current-user');
+
+    # Owner
+    Route::group(['prefix' => 'owner', 'as' => 'owner.', 'middleware' => 'owner'], function() {
+        # Room
+        Route::group(['prefix' => 'rooms'], function() {
+            Route::apiResource('rooms', 'Owner\RoomController');
+        });
+    });
 });

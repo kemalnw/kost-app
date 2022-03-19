@@ -3,26 +3,22 @@
 namespace App\Models\User\Traits\Method;
 
 use App\Models\User\Role;
-use Database\Factories\UserFactory;
 
 trait UserMethod
 {
     /**
-     * Determine if the user has role with the given role name
+     * Determine if the user has role with the given role id
      *
-     * @param string $roleName
+     * @param int $roleId
      * @return boolean
      */
-    public function hasRole($roleName)
+    public function hasRole($roleId)
     {
-        return $this->whereHas('role', function($q) use($roleName) {
-            return $q->whereName($roleName);
-        })
-        ->exists();
+        return $this->role_id === $roleId;
     }
 
     /**
-     * Claim the user credit based on role
+     * Claim user free credit based on role
      *
      * @return void
      */

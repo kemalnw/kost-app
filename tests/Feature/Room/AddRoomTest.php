@@ -33,6 +33,7 @@ class AddRoomTest extends TestCase
                 'price' => $room['price'],
                 'location' => $room['location'],
             ],
+            'relationships' => []
         ]);
 
         $this->assertDatabaseHas('rooms', [

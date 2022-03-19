@@ -18,6 +18,12 @@ class RoomService
     )
     {}
 
+    /**
+     * Create new room for current user
+     *
+     * @param Request $request
+     * @return \App\Models\Room\Room
+     */
     public function store(Request $request)
     {
         DB::beginTransaction();
@@ -34,5 +40,18 @@ class RoomService
         }
 
         return $room;
+    }
+
+    /**
+     * Retrieve all rooms that related to current user
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function rooms(Request $request)
+    {
+        return $this->repository
+            ->forOwner($request->user())
+            ->cursorPaginate($request->limit);
     }
 }

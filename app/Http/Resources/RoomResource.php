@@ -22,6 +22,7 @@ class RoomResource extends JsonResource
                 'price' => $this->price,
                 'location' => $this->location,
             ],
+            'relationships' => [],
         ];
     }
 }

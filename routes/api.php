@@ -23,8 +23,6 @@ Route::middleware('auth:sanctum')->group(function() {
     # Owner
     Route::group(['prefix' => 'owner', 'as' => 'owner.', 'middleware' => 'owner'], function() {
         # Room
-        Route::group(['prefix' => 'rooms'], function() {
-            Route::apiResource('rooms', 'Owner\RoomController');
-        });
+        Route::apiResource('rooms', 'Owner\RoomController');
     });
 });

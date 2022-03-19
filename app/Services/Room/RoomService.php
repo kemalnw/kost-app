@@ -54,4 +54,26 @@ class RoomService
             ->forOwner($request->user())
             ->cursorPaginate($request->limit);
     }
+
+    /**
+     * Update the specified room based on the given ID
+     *
+     * @param Request $request
+     * @param integer $id
+     * @return \App\Models\Room\Room
+     */
+    public function updateById(Request $request, int $id)
+    {
+        DB::beginTransaction();
+        try {
+            $room = $this->repository->updateById($request->except('user_id'), $id);
+
+            DB::commit();
+        } catch (\Exception $e) {
+            DB::rollBack();
+            throw $e;
+        }
+
+        return $room;
+    }
 }

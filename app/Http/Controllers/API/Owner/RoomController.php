@@ -4,7 +4,9 @@ namespace App\Http\Controllers\API\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Room\StoreRequest;
+use App\Http\Requests\Room\UpdateRequest;
 use App\Http\Resources\RoomResource;
+use App\Models\Room\Room;
 use App\Services\Room\RoomService;
 use Illuminate\Http\Request;
 
@@ -62,13 +64,17 @@ class RoomController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  UpdateRequest  $request
+     * @param  Room $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, Room $room)
     {
-        //
+        RoomResource::withoutWrapping();
+
+        return RoomResource::make(
+            $this->service->updateById($request, $room->getKey())
+        );
     }
 
     /**

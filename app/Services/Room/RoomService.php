@@ -48,10 +48,11 @@ class RoomService
      * @param Request $request
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
-    public function rooms(Request $request)
+    public function myRooms(Request $request)
     {
         return $this->repository
             ->forOwner($request->user())
+            ->withRoomFilter()
             ->cursorPaginate($request->limit);
     }
 
@@ -86,5 +87,19 @@ class RoomService
     public function removeById(int $id)
     {
         return $this->repository->deleteById($id);
+    }
+
+    /**
+     * Get listing of all rooms
+     *
+     * @param Request $request
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function rooms(Request $request)
+    {
+        return $this->repository
+            ->withRoomFilter()
+            ->orderByPrice()
+            ->cursorPaginate($request->limit);
     }
 }

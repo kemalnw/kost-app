@@ -33,7 +33,7 @@ class RoomController extends Controller
     public function index(Request $request)
     {
         return RoomResource::collection(
-            $this->service->rooms($request)
+            $this->service->myRooms($request)
         );
     }
 

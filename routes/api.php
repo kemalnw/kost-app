@@ -13,8 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+# Auth
 Route::post('register', 'AuthController@register')->name('auth.register');
 Route::post('login', 'AuthController@login')->name('auth.login');
+
+# Room
+Route::group(['prefix' => 'rooms', 'as' => 'rooms.'], function() {
+    Route::get('/', 'RoomController@index')->name('index');
+});
 
 Route::middleware('auth:sanctum')->group(function() {
     # Account

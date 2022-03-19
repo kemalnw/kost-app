@@ -149,6 +149,11 @@ class UpdateRoomTest extends TestCase
             ])
         )
         ->assertInvalid(['name', 'location', 'price']);
+
+        $this->assertDatabaseHas(
+            'rooms',
+            $room->makeHidden(['updated_at', 'created_at'])->toArray()
+        );
     }
 
     /** @test */
@@ -208,5 +213,10 @@ class UpdateRoomTest extends TestCase
             array_merge($updatedRoom, ['number_rooms' => -1])
         )
         ->assertInvalid('number_rooms');
+
+        $this->assertDatabaseHas(
+            'rooms',
+            $room->makeHidden(['updated_at', 'created_at'])->toArray()
+        );
     }
 }

@@ -46,7 +46,7 @@ class AddRoomTest extends TestCase
     /** @test */
     public function only_owner_can_add_room()
     {
-        $this->loginAs(Role::REGULAR_USER);
+        $user = $this->loginAs(Role::REGULAR_USER);
 
         $room = [
             'name' => 'Kost Permata',
@@ -58,12 +58,16 @@ class AddRoomTest extends TestCase
         $response = $this->postJson(route('owner.rooms.store'), $room);
 
         $response->assertStatus(Response::HTTP_FORBIDDEN);
+
+        $this->assertDatabaseMissing('rooms', [
+            'user_id' => $user->getKey()
+        ]);
     }
 
     /** @test */
     public function ensure_the_required_fields_can_not_empty()
     {
-        $this->loginAs(Role::OWNER);
+        $user = $this->loginAs(Role::OWNER);
 
         $room = [
             'name' => 'Kost Permata',
@@ -103,12 +107,16 @@ class AddRoomTest extends TestCase
             ])
         )
         ->assertInvalid(['name', 'location', 'price']);
+
+        $this->assertDatabaseMissing('rooms', [
+            'user_id' => $user->getKey()
+        ]);
     }
 
     /** @test */
     public function invalid_input_data_should_return_errors()
     {
-        $this->loginAs(Role::OWNER);
+        $user = $this->loginAs(Role::OWNER);
 
         $room = [
             'name' => 'Kost Permata',
@@ -158,5 +166,9 @@ class AddRoomTest extends TestCase
             array_merge($room, ['number_rooms' => -1])
         )
         ->assertInvalid('number_rooms');
+
+        $this->assertDatabaseMissing('rooms', [
+            'user_id' => $user->getKey()
+        ]);
     }
 }

@@ -16,6 +16,9 @@ abstract class TestCase extends BaseTestCase
     protected function loginAs(int $roleId = 1, array $overrides = [])
     {
         $user = User::factory()->withRole($roleId)->create($overrides);
+
+        $user->claimCredit();
+
         Sanctum::actingAs($user);
 
         return $user;

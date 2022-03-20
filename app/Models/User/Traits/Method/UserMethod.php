@@ -3,6 +3,7 @@
 namespace App\Models\User\Traits\Method;
 
 use App\Models\User\Role;
+use App\Models\User\User;
 
 trait UserMethod
 {
@@ -26,11 +27,11 @@ trait UserMethod
     {
         switch ($this->role_id) {
             case Role::REGULAR_USER:
-                $this->increment('balance', 20);
+                $this->increment('balance', User::FREE_CREDIT_FOR_REGULER_USER);
                 break;
 
             case Role::PREMIUM_USER:
-                $this->increment('balance', 40);
+                $this->increment('balance', User::FREE_CREDIT_FOR_PREMIUM_USER);
                 break;
         }
     }

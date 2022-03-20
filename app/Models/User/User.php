@@ -16,6 +16,10 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable,
         SoftDeletes, UserRelationship, UserMethod;
 
+    /** Define user free credit */
+    const FREE_CREDIT_FOR_REGULER_USER = 20;
+    const FREE_CREDIT_FOR_PREMIUM_USER = 40;
+
     /**
      * The attributes that are mass assignable.
      *

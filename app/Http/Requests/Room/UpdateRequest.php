@@ -27,7 +27,7 @@ class UpdateRequest extends FormRequest
             'name' => 'required|string|max:255',
             'location' => 'required|string|max:255',
             'price' => 'required|integer|min:1',
-            'number_rooms' => 'required|integer|min:1',
+            'unit' => 'required|integer|min:1',
         ];
     }
 }

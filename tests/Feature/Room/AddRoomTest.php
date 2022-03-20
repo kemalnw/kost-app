@@ -19,7 +19,7 @@ class AddRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->postJson(route('owner.rooms.store'), $room);
@@ -52,7 +52,7 @@ class AddRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->postJson(route('owner.rooms.store'), $room);
@@ -73,32 +73,32 @@ class AddRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $this->postJson(
             route('owner.rooms.store'),
             Arr::except($room, [
-                'location', 'price', 'number_rooms'
+                'location', 'price', 'unit'
             ])
         )
-        ->assertInvalid(['location', 'price', 'number_rooms']);
+        ->assertInvalid(['location', 'price', 'unit']);
 
         $this->postJson(
             route('owner.rooms.store'),
             Arr::except($room, [
-                'name', 'price', 'number_rooms'
+                'name', 'price', 'unit'
             ])
         )
-        ->assertInvalid(['name', 'price', 'number_rooms']);
+        ->assertInvalid(['name', 'price', 'unit']);
 
         $this->postJson(
             route('owner.rooms.store'),
             Arr::except($room, [
-                'name', 'location', 'number_rooms'
+                'name', 'location', 'unit'
             ])
         )
-        ->assertInvalid(['name', 'location', 'number_rooms']);
+        ->assertInvalid(['name', 'location', 'unit']);
 
         $this->postJson(
             route('owner.rooms.store'),
@@ -122,7 +122,7 @@ class AddRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $this->postJson(
@@ -163,9 +163,9 @@ class AddRoomTest extends TestCase
 
         $this->postJson(
             route('owner.rooms.store'),
-            array_merge($room, ['number_rooms' => -1])
+            array_merge($room, ['unit' => -1])
         )
-        ->assertInvalid('number_rooms');
+        ->assertInvalid('unit');
 
         $this->assertDatabaseMissing('rooms', [
             'user_id' => $user->getKey()

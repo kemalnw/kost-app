@@ -25,7 +25,7 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->putJson(
@@ -62,7 +62,7 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->putJson(
@@ -87,7 +87,7 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->putJson(
@@ -115,32 +115,32 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $this->putJson(
             route('owner.rooms.update', ['room' => $room->getKey()]),
             Arr::except($updatedRoom, [
-                'location', 'price', 'number_rooms'
+                'location', 'price', 'unit'
             ])
         )
-        ->assertInvalid(['location', 'price', 'number_rooms']);
+        ->assertInvalid(['location', 'price', 'unit']);
 
         $this->putJson(
             route('owner.rooms.update', ['room' => $room->getKey()]),
             Arr::except($updatedRoom, [
-                'name', 'price', 'number_rooms'
+                'name', 'price', 'unit'
             ])
         )
-        ->assertInvalid(['name', 'price', 'number_rooms']);
+        ->assertInvalid(['name', 'price', 'unit']);
 
         $this->putJson(
             route('owner.rooms.update', ['room' => $room->getKey()]),
             Arr::except($updatedRoom, [
-                'name', 'location', 'number_rooms'
+                'name', 'location', 'unit'
             ])
         )
-        ->assertInvalid(['name', 'location', 'number_rooms']);
+        ->assertInvalid(['name', 'location', 'unit']);
 
         $this->putJson(
             route('owner.rooms.update', ['room' => $room->getKey()]),
@@ -169,7 +169,7 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $this->putJson(
@@ -210,9 +210,9 @@ class UpdateRoomTest extends TestCase
 
         $this->putJson(
             route('owner.rooms.update', ['room' => $room->getKey()]),
-            array_merge($updatedRoom, ['number_rooms' => -1])
+            array_merge($updatedRoom, ['unit' => -1])
         )
-        ->assertInvalid('number_rooms');
+        ->assertInvalid('unit');
 
         $this->assertDatabaseHas(
             'rooms',
@@ -228,7 +228,7 @@ class UpdateRoomTest extends TestCase
             'name' => 'Kost Permata',
             'location' => 'Kota Surakarta',
             'price' => 500000,
-            'number_rooms' => 10,
+            'unit' => 10,
         ];
 
         $response = $this->putJson(

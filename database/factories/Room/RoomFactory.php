@@ -22,7 +22,7 @@ class RoomFactory extends Factory
             'name' => $this->faker->name(),
             'price' => $this->faker->numberBetween(1000, 1000000),
             'location' => $this->faker->address(),
-            'number_rooms' => $this->faker->randomDigitNotZero(),
+            'unit' => $this->faker->randomDigitNotZero(),
         ];
     }
 }

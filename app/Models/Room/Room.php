@@ -23,6 +23,6 @@ class Room extends Model
         'name',
         'price',
         'location',
-        'number_rooms',
+        'unit',
     ];
 }

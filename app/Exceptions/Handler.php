@@ -4,7 +4,6 @@ namespace App\Exceptions;
 
 use Throwable;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
@@ -41,7 +40,25 @@ class Handler extends ExceptionHandler
                 return response()->json([
                     'status' => 'fail',
                     'message' => 'The requested resource was not found.',
-                ], Response::HTTP_NOT_FOUND);
+                ], $e->getStatusCode());
+            }
+        });
+
+        $this->renderable(function (InsufficientFundsException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Insufficient funds, please top up your balance.',
+                ], $e->getStatusCode());
+            }
+        });
+
+        $this->renderable(function (RoomNotAvailableException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'status' => 'fail',
+                    'message' => 'Room not available.',
+                ], $e->getStatusCode());
             }
         });
     }

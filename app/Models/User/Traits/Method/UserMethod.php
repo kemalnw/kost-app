@@ -11,9 +11,9 @@ trait UserMethod
      * Determine if the user has role with the given role id
      *
      * @param int $roleId
-     * @return boolean
+     * @return bool
      */
-    public function hasRole($roleId)
+    public function hasRole(int $roleId)
     {
         return $this->role_id === $roleId;
     }
@@ -34,5 +34,31 @@ trait UserMethod
                 $this->increment('balance', User::FREE_CREDIT_FOR_PREMIUM_USER);
                 break;
         }
+    }
+
+    /**
+     * Determine if the user is owner of the room
+     *
+     * @param int $roomId
+     * @return bool
+     */
+    public function hasRoom(int $roomId)
+    {
+        return $this->whereHas('rooms', function($room) use($roomId) {
+            return $room->where('id', $roomId)
+                ->where('user_id', $this->getKey());
+        })
+        ->exists();
+    }
+
+    /**
+     * Determine if the user has enough balance
+     *
+     * @param int $amount
+     * @return bool
+     */
+    public function hasEnoughBalance(int $amount)
+    {
+        return $this->balance >= $amount;
     }
 }

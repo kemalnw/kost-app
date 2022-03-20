@@ -26,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function() {
     # Account
     Route::get('account/current-user', 'AccountController@currentUser')->name('account.current-user');
 
+    # Booking
+    Route::post('booking', 'BookingController@store')->name('booking.store');
+
     # Owner
     Route::group(['prefix' => 'owner', 'as' => 'owner.', 'middleware' => 'owner'], function() {
         # Room

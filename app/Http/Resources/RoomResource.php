@@ -21,8 +21,13 @@ class RoomResource extends JsonResource
                 'name' => $this->name,
                 'price' => $this->price,
                 'location' => $this->location,
+                'unit' => $this->unit,
             ],
-            'relationships' => [],
+            'relationships' => [
+                'owner' => $this->whenLoaded('owner', function() {
+                    return UserResource::make($this->owner);
+                }),
+            ],
         ];
     }
 }

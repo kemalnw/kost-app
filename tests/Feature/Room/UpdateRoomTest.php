@@ -41,6 +41,7 @@ class UpdateRoomTest extends TestCase
                 'name' => $updatedRoom['name'],
                 'price' => $updatedRoom['price'],
                 'location' => $updatedRoom['location'],
+                'unit' => $updatedRoom['unit'],
             ],
             'relationships' => []
         ]);

@@ -28,6 +28,7 @@ class ShowRoomForOwnerTest extends TestCase
                 'name' => $room['name'],
                 'price' => $room['price'],
                 'location' => $room['location'],
+                'unit' => $room['unit'],
             ],
             'relationships' => []
         ]);

@@ -4,6 +4,7 @@ namespace Tests\Feature\Auth;
 
 use Tests\TestCase;
 use App\Models\User\Role;
+use App\Models\User\User;
 use Illuminate\Support\Arr;
 
 class RegistrationTest extends TestCase
@@ -29,13 +30,12 @@ class RegistrationTest extends TestCase
             'attributes' => [
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'balance' => 20,
             ],
         ]);
 
         $user = ['password' => bcrypt($user['password']), ...$user];
         $this->assertDatabaseHas('users', Arr::except([
-            'balance' => 20,
+            'balance' => User::FREE_CREDIT_FOR_REGULER_USER,
             ...$user
         ],
         [
@@ -96,13 +96,12 @@ class RegistrationTest extends TestCase
             'attributes' => [
                 'name' => $user['name'],
                 'email' => $user['email'],
-                'balance' => 40,
             ],
         ]);
 
         $user = ['password' => bcrypt($user['password']), ...$user];
         $this->assertDatabaseHas('users', Arr::except([
-            'balance' => 40,
+            'balance' => User::FREE_CREDIT_FOR_PREMIUM_USER,
             ...$user
         ],
         [

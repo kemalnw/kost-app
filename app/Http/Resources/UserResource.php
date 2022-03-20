@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class UserResource extends JsonResource
 {
@@ -20,7 +21,12 @@ class UserResource extends JsonResource
             'attributes' => [
                 'name' => $this->name,
                 'email' => $this->email,
-                'balance' => $this->balance,
+                'balance' => $this->when(
+                    Auth::check() && Auth::id() === $this->getKey(),
+                    function() {
+                        return ;
+                    }
+                ),
             ],
             'relationships' => [],
         ];

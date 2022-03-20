@@ -20,6 +20,7 @@ Route::post('login', 'AuthController@login')->name('auth.login');
 # Room
 Route::group(['prefix' => 'rooms', 'as' => 'rooms.'], function() {
     Route::get('/', 'RoomController@index')->name('index');
+    Route::get('/{room}', 'RoomController@show')->name('show');
 });
 
 Route::middleware('auth:sanctum')->group(function() {
